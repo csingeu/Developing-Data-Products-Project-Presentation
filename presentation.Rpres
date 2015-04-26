@@ -1,0 +1,61 @@
+Developing Data Products Course Project
+========================================================
+
+## Fuel Cost Calculator
+
+Chan Sing Eu
+
+26 Apr 2015
+
+INTRODUCTION
+========================================================
+
+This presentation is part of the Course Project for the Coursera Developing Data Products class. This presentation addresses the second part of the course project.
+
+The app developed for the first part of the assignment is available at:
+https://csingeu.shinyapps.io/Developing-Data-Products-Project/
+
+Source code for ui.R and server.R files are available on the GitHub:
+https://github.com/csingeu/Developing-Data-Products-Project
+
+FUEL COST CALCULATOR
+========================================================
+
+This app aims to help you to calculate the estimated mpg of your car, based on your car's weight, number of cylinders and horsepower. It uses a linear regression model based on the mtcars dataset from R. With your estimated mpg, and your monthly work trip distance and petrol cost, it will compute for you your monthly and yearly petrol costs. It also gives an indication of your car's mileage ranking among the other cars in mtcars dataset. 
+
+MTCARS DATASET
+========================================================
+
+The data used in the app comes from the Motor Trend Car Road Tests (mtcars) dataset. The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973-74 models).
+
+```{r, echo=TRUE}
+head(mtcars)
+```
+
+In the app, we will estimate mpg using car weight, number of cylinders and horsepower.
+
+HOW YOUR CAR COMPARES WITH OTHER CARS (IN MPG)
+========================================================
+
+```{r, echo=FALSE}
+cars <- data.frame(rownames(mtcars), mtcars)
+colnames(cars)[1]="name"
+cars <- cars[,c(1,2)]
+cars$color <- "gray"
+
+cars[1]<- lapply(cars[1], as.character)
+you <- c("You", 21.8, "red")
+cars <- rbind(cars, you)
+cars[2] <- lapply(cars[2], as.numeric)
+cars <-cars[order(cars[,2]),]
+
+par(las=2) # make label text perpendicular to axis
+par(mar=c(5,8,4,2)) # increase y-axis margin.
+barplot(cars$mpg, names.arg=cars$name, col = cars$color, 
+main="How you car compares to others (in mpg)",
+xlab="mpg",
+                                
+cex.names=0.9, cex.axis=1.0,
+horiz=TRUE,  las=1)
+```
+
